@@ -1,0 +1,58 @@
+#include <stdio.h>
+#define MAX_LENGTH 65536
+#define NOCOMMENT 0
+#define SINGLE 1
+#define MULTI  2
+
+main()
+{
+    char code[MAX_LENGTH];      
+    int size = 0;                 
+    int loop;                     
+    char c;                      
+    int start = NOCOMMENT;  
+    int in_string = 0;          
+    char lastchar;          
+
+
+    while ((c = getchar()) != EOF)
+        code[size++] = c;
+    code[size] = '\0';
+
+
+    for (loop = 0; loop < size; loop++) {
+        char current = code[loop];
+
+        if (in_string) {
+            if (current == '"') in_string = 0;
+            putchar(current);
+        }
+
+        else {
+            if (start == NOCOMMENT) {
+                if (current == '"') {
+                    putchar(current);
+                    in_string = 1;
+                    continue;
+                }
+
+                if (current == '/' && lastchar == '/') start = SINGLE;
+                else if (current == '*' && lastchar == '/') start = MULTI;
+                else if (current != '/' || (current == '/' && loop < size - 1 && !(code[loop + 1] == '/' || code[loop + 1] == '*'))) putchar(current);
+            }
+
+            else if (start == SINGLE) {
+                if (current == '\n') {
+                    start = NOCOMMENT;
+                    putchar('\n');
+                }
+            }
+
+            else if (start == MULTI) {
+                if (current == '/' && lastchar == '*') start = NOCOMMENT;
+            }
+        }
+
+        lastchar = current;
+    }
+}
