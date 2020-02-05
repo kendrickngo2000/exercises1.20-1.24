@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TAB 8
+#define MAX 1000
+
+char* entab(char line[], int length);
+int get_line(char line[], int max);
+
+int main() {
+	int length = 0;
+	int tablen = 0;
+	char line[MAX];
+	char* entabbed;
+
+
+    while ((length = get_line(line, MAX)) > 0) {
+        entabbed = entab(line, length);
+        while (entabbed[tablen] != '\0') {
+            tablen++;
+        }
+
+        printf("%s", entabbed);
+        if (entabbed[tablen - 1] != '\n') {
+            printf("\n");
+        }
+
+        free(entab);
+    }
+
+    return 0;
+}
+
+int get_line(char line[], int maxlen)
+{
+    int i = 0;  
+    int c;      
+
+    while (i < maxlen - 1 && (c = getchar()) != EOF) {
+        line[i++] = c;
+        if (c == '\n') {
+            break;
+        }
+    }
+    line[i] = '\0';
+
+    if (i > 0 && line[i - 1] != '\n') {
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
+    return i;
+}
