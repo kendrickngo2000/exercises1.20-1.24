@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define COLUMN 80
+#define MAX 1000
+
+int main() {
+	int i;
+	char current[MAX];
+
+	for (i = 0; i < MAX; ++i) {
+		current[i] = '\0';
+	}
+	int c, len, pos;
+	pos = 0;
+	len = 0;
+	while ((c = getchar()) != EOF) {
+		if (c == ' ' || c == '\t' || c == '\n') {
+			current[pos] = '\0';
+			if (len + pos >= COLUMN) {
+				printf("\n");
+				len = pos;
+			}
+			else {
+				if (c == '\n')
+					len = 0;
+				if (c == '\t')
+					len = len + 4;
+				else
+					len++;
+			}
+			printf("%s", current);
+			putchar(c);
+			pos = 0;
+		}
+		else {
+			//Buffer word
+			current[pos] = c;
+			++pos;
+		}
+		++len;
+	}
+}
