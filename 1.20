@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TAB 8
+
+int main() {
+	int input;
+	int count = 0;
+	int spaces;
+
+	while ((input = getchar()) != EOF) {
+		if (input == '\n') {
+			putchar(input);
+			count = 0;
+		}
+		else if (input == '\t') {
+			spaces = TAB - count%TAB;
+			while (spaces-- != 0) {
+				putchar('*');
+				count++;
+			}
+		}
+		else {
+			putchar(input);
+			count++;
+		}
+		
+	}
+	system("pause");
+	return 0;
+}
