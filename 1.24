@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+char checkchar(charc);
+void checkerror(void);
+
+int error, parentheses, squote, dquote;
+
+void check(int c) {
+    if (c == '(')
+        parentheses++;
+    if (c == ')')
+        parentheses--;
+    if (c == '"')
+        dquote++;
+    if (c == '\'')
+        squote++;
+}
+
+void checkerror(void) {
+    
+    if ((dquote % 2) > 0) {
+        error++;
+        printf("error, close double quote\n");
+    }
+    if (parentheses > 0) {
+        error++;
+        printf("error, open parentheses\n");
+    }
+    if (parentheses < 0) {
+        error++;
+        printf("error, close parentheses\n");
+    }
+    if ((squote % 2) > 0) {
+        error++;
+        printf("error, close single quote\n");
+    }
+    if (error == 0) {
+        printf("OKAY\n");
+    }
+}
+
+int main()
+{
+    int c;
+    parentheses = 0;
+    squote = 0;
+    dquote = 0;
+
+    while ((c = getchar()) != EOF) {
+        check(c);
+        checkerror();
+        return 0;
+    }
+}
